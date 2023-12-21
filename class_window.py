@@ -4,18 +4,22 @@ from tkinter import filedialog
 import openpyxl
 from PyQt5.QtWidgets import QHeaderView, QMessageBox
 from sql import *
-
+import hashlib
 
 class password_window(QtWidgets.QMainWindow,Ui_password):
     def __init__(self, parent):
         super().__init__()
         self.setupUi(self)
-        self.pushButtonAdd.clicked.connect(self.button_add)
+        self.pushButtonAdd.clicked.connect(self.button_password)
         self.parent = parent
         self.pushButtonBack.clicked.connect(self.button_back)
 
-    def button_add(self):
-        if self.lineEditPassword.text() == '1234':
+    def button_password(self):
+        hash = hashlib.sha256()
+        hash.update(self.lineEditPassword.text().encode())
+        hortCode = hash.hexdigest()[:6]
+        if hortCode == '03ac67':
+            self.hide()
             self.admin_window = admin_window(self.parent)
             self.admin_window.show()
         else:
@@ -39,9 +43,15 @@ class admin_window(QtWidgets.QMainWindow,Ui_admin):
 
     def button_change(self):
         if self.radioButtonCity.isChecked() and self.lineEdit.text() and self.lineEdit_2.text():
-            change_city(self.lineEdit.text(), self.lineEdit_2.text())
+            if len(self.lineEdit.text()) > 30 or len(self.lineEdit_2.text()) > 30:
+                print("Data too long")
+            else:
+                change_city(self.lineEdit.text(), self.lineEdit_2.text())
         elif self.radioButtonFlight.isChecked() and self.lineEdit.text() and self.lineEdit_2.text():
-            change_flight(self.lineEdit.text(), self.lineEdit_2.text())
+            if len(self.lineEdit.text()) > 10 or len(self.lineEdit_2.text()) > 10:
+                print("Data too long")
+            else:
+                change_flight(self.lineEdit.text(), self.lineEdit_2.text())
         self.lineEdit.clear()
         self.lineEdit_2.clear()
 
@@ -54,9 +64,15 @@ class admin_window(QtWidgets.QMainWindow,Ui_admin):
 
     def button_add(self):
         if self.radioButtonCity.isChecked() and self.lineEdit.text():
-            add_city(self.lineEdit.text())
+            if len(self.lineEdit.text()) > 30:
+                print("Data too long")
+            else:
+                add_city(self.lineEdit.text())
         elif self.radioButtonFlight.isChecked() and self.lineEdit.text():
-            add_flight(self.lineEdit.text())
+            if len(self.lineEdit.text()) > 10:
+                print("Data too long")
+            else:
+                add_flight(self.lineEdit.text())
         self.lineEdit.clear()
 
     def back(self):
@@ -80,8 +96,6 @@ class filter_window(QtWidgets.QMainWindow,Ui_Filter):
             where += "a.date_fly = '" + date + "' and "
         if not self.checkBoxTime.isChecked():
             where += "a.time_fly = '" + self.timeEdit.text() + "' and "
-        if not self.checkBoxId.isChecked():
-            where += "a.id = " + self.spinBoxId.text() + " and "
         if not self.checkBoxPlace.isChecked():
             where += "a.free_place = " + self.spinBoxPlace.text() + " and "
         if self.lineEditFromPlace.text():
@@ -139,7 +153,7 @@ class change_window(QtWidgets.QMainWindow,Ui_add):
             QMessageBox.question(self, 'Message', "Нет такого города.",
                                      QMessageBox.Ok)
             self.labelFromPlace.setStyleSheet("font: 10pt \"Segoe UI\";\n" "color: red")
-        if not self.lineEditToPlace.text():
+        elif not self.lineEditToPlace.text():
             a=False
             QMessageBox.question(self, 'Message', "Не заполнен пункт прибытия.",
                                      QMessageBox.Ok)
@@ -149,7 +163,7 @@ class change_window(QtWidgets.QMainWindow,Ui_add):
             QMessageBox.question(self, 'Message', "Нет такого города.",
                                      QMessageBox.Ok)
             self.labelToPlace.setStyleSheet("font: 10pt \"Segoe UI\";\n" "color: red")
-        if not self.lineEditFlight.text():
+        elif not self.lineEditFlight.text():
             a=False
             QMessageBox.question(self, 'Message', "Не заполнен номер рейса.",
                                      QMessageBox.Ok)
@@ -159,7 +173,7 @@ class change_window(QtWidgets.QMainWindow,Ui_add):
             QMessageBox.question(self, 'Message', "Нет такого рейса.",
                                      QMessageBox.Ok)
             self.labelFlight.setStyleSheet("font: 10pt \"Segoe UI\";\n" "color: red")
-        if self.lineEditToPlace.text() == self.lineEditFromPlace.text():
+        elif self.lineEditToPlace.text() == self.lineEditFromPlace.text():
             a=False
             QMessageBox.question(self, 'Message', "Пункты назначения и отправления не могут совпадать.",
                                      QMessageBox.Ok)
@@ -306,7 +320,7 @@ class add_window(QtWidgets.QMainWindow,Ui_add):
             QMessageBox.question(self, 'Message', "Нет такого города.",
                                      QMessageBox.Ok)
             self.labelFromPlace.setStyleSheet("font: 10pt \"Segoe UI\";\n" "color: red")
-        if not self.lineEditToPlace.text():
+        elif not self.lineEditToPlace.text():
             a=False
             QMessageBox.question(self, 'Message', "Не заполнен пункт прибытия.",
                                      QMessageBox.Ok)
@@ -316,7 +330,7 @@ class add_window(QtWidgets.QMainWindow,Ui_add):
             QMessageBox.question(self, 'Message', "Нет такого города.",
                                      QMessageBox.Ok)
             self.labelToPlace.setStyleSheet("font: 10pt \"Segoe UI\";\n" "color: red")
-        if not self.lineEditFlight.text():
+        elif not self.lineEditFlight.text():
             a=False
             QMessageBox.question(self, 'Message', "Не заполнен номер рейса.",
                                      QMessageBox.Ok)
@@ -326,7 +340,7 @@ class add_window(QtWidgets.QMainWindow,Ui_add):
             QMessageBox.question(self, 'Message', "Нет такого рейса.",
                                      QMessageBox.Ok)
             self.labelFlight.setStyleSheet("font: 10pt \"Segoe UI\";\n" "color: red")
-        if self.lineEditToPlace.text() == self.lineEditFromPlace.text():
+        elif self.lineEditToPlace.text() == self.lineEditFromPlace.text():
             a=False
             QMessageBox.question(self, 'Message', "Пункты назначения и отправления не могут совпадать.",
                                      QMessageBox.Ok)

@@ -10,13 +10,13 @@ class Ui_main(object):
         Widget.resize(900, 424)
 
         self.pushButtonFilter = QtWidgets.QPushButton(Widget)
-        self.pushButtonFilter.setGeometry(QtCore.QRect(690, 10, 31, 31))
+        self.pushButtonFilter.setGeometry(QtCore.QRect(650, 10, 71, 31))
         self.pushButtonFilter.setStyleSheet("font: 700 10pt \"Segoe UI\";\n"
 "background-color: #97ba1e;\n"
 "border: 1px solid #97ba1e;\n"
 "color: #fff\n"
 "")
-        self.pushButtonFilter.setObjectName("pushButtonAdd")
+        self.pushButtonFilter.setObjectName("pushButtonFilter")
 
 
         self.labelMain = QtWidgets.QLabel(Widget)
@@ -91,6 +91,7 @@ class Ui_main(object):
         self.pushButtonAdmin.setText(_translate("Widget", "Город/Рейс"))
         self.pushButtonChange.setText(_translate("Widget", "Изменить "))
         self.pushButtonDelete.setText(_translate("Widget", "Удалить "))
+        self.pushButtonFilter.setText(_translate("Widget", "Фильтр"))
         self.pushButtonCreate.setText(_translate("Widget", "Создать отчет"))
         self.pushButtonExit.setText(_translate("Widget", "Выйти "))
 
@@ -366,24 +367,11 @@ class Ui_Filter(object):
         self.checkBoxPlace.setGeometry(QtCore.QRect(340, 120, 71, 22))
         self.checkBoxPlace.setObjectName("checkBoxPlace")
         self.labelPlace = QtWidgets.QLabel(Widget)
-        self.labelPlace.setGeometry(QtCore.QRect(260, 80, 71, 31))
+        self.labelPlace.setGeometry(QtCore.QRect(260, 80, 141, 31))
         self.labelPlace.setStyleSheet("font: 10pt \"Segoe UI\";\n"
 "color: #000")
         self.labelPlace.setAlignment(QtCore.Qt.AlignCenter)
         self.labelPlace.setObjectName("labelPlace")
-        self.labelId = QtWidgets.QLabel(Widget)
-        self.labelId.setGeometry(QtCore.QRect(260, 150, 71, 31))
-        self.labelId.setStyleSheet("font: 10pt \"Segoe UI\";\n"
-"color: #000")
-        self.labelId.setAlignment(QtCore.Qt.AlignCenter)
-        self.labelId.setObjectName("labelId")
-        self.checkBoxId = QtWidgets.QCheckBox(Widget)
-        self.checkBoxId.setGeometry(QtCore.QRect(340, 190, 71, 22))
-        self.checkBoxId.setObjectName("checkBoxId")
-        self.spinBoxId = QtWidgets.QSpinBox(Widget)
-        self.spinBoxId.setGeometry(QtCore.QRect(260, 180, 71, 41))
-        self.spinBoxId.setObjectName("spinBoxId")
-
         self.retranslateUi(Widget)
         QtCore.QMetaObject.connectSlotsByName(Widget)
 
@@ -399,9 +387,7 @@ class Ui_Filter(object):
         self.checkBoxDate.setText(_translate("Widget", "Любое"))
         self.checkBoxTime.setText(_translate("Widget", "Любое"))
         self.checkBoxPlace.setText(_translate("Widget", "Любые"))
-        self.labelPlace.setText(_translate("Widget", "Места"))
-        self.labelId.setText(_translate("Widget", "ID"))
-        self.checkBoxId.setText(_translate("Widget", "Любое"))
+        self.labelPlace.setText(_translate("Widget", "Свободные места"))
 
 class Ui_admin(object):
     def setupUi(self, Widget):

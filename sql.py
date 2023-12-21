@@ -16,7 +16,7 @@ def create_connection_db(host_name, user_name, user_password, db_name):
 
     return connection
 
-connection = create_connection_db("localhost", "root", "луу1947*", "airplane")
+connection = create_connection_db("31.28.27.213", "root", "луу1947*", "airplane")
 
 def create_connection_db(host_name, user_name, user_password, db_name):
     connection = None
@@ -33,7 +33,7 @@ def create_connection_db(host_name, user_name, user_password, db_name):
 
     return connection
 
-# Функция для добавления нового рейса в расписание
+
 def add_flight_schedule(date, time, fromPlace, toPlace,  flight_id, place_free):
     cursor = connection.cursor()
     Y, M, D = date.split('.')
@@ -87,7 +87,8 @@ def delete_city(city):
 
 def change_city(city_1, city_2):
     cursor = connection.cursor()
-    cursor.execute("UPDATE city SET city = %s WHERE city = %s", (city_2, city_1))
+    if get_city_2(city_2) == '':
+        cursor.execute("UPDATE city SET city = %s WHERE city = %s", (city_2, city_1))
     connection.commit()
     cursor.close()
 
@@ -138,7 +139,7 @@ def delete_airplane(id):
     connection.commit()
     cursor.close()
 
-# Функция для редактирования информации о рейсе в расписании
+
 def edit_flight_schedule(date_fly, time_fly, from_place, to_place, flight_id, free_place):
     cursor = connection.cursor()
     query = "UPDATE airplane SET date_fly= %s, time_fly = %s, from_place = %s, to_place = %s, flight_id = %s free_place = %s WHERE id = %s"
@@ -146,7 +147,6 @@ def edit_flight_schedule(date_fly, time_fly, from_place, to_place, flight_id, fr
     connection.commit()
     cursor.close()
 
-# Функция для извлечения информации о расписании полетов
 def get_airplane():
     cursor = connection.cursor()
     select_flight_query = "Select a.id, DATE_FORMAT(a.date_fly, '%d-%m-%Y'), a.time_fly, c.city as from_place, s.city as to_place, f.flight as flight_id , a.free_place FROM airplane as a join flight as f on a.flight_id = f.Id join city as s on a.to_place = s.Id join city as c on a.from_place = c.Id"
@@ -155,7 +155,6 @@ def get_airplane():
     cursor.close()
     return flight_schedule
 
-# Функция для извлечения информации о расписании полетов
 def get_flight_where(where):
     cursor = connection.cursor()
     select_flight_query = "Select a.id, DATE_FORMAT(a.date_fly, '%d-%m-%Y'), a.time_fly, c.city as from_place, s.city as to_place, f.flight as flight_id , a.free_place FROM airplane as a join flight as f on a.flight_id = f.Id join city as s on a.to_place = s.Id join city as c on a.from_place = c.Id where " + where
@@ -164,7 +163,6 @@ def get_flight_where(where):
     cursor.close()
     return flight_schedule
 
-# Функция для извлечения информации о расписании полетов для отчета
 def get_airplane_2(checked_options):
     cursor = connection.cursor()
     join = ""

@@ -57,6 +57,7 @@ class main_window(QtWidgets.QMainWindow,Ui_main):
         self.tableWidget.horizontalHeader().setSectionResizeMode(1,QHeaderView.ResizeToContents)
         self.tableWidget.horizontalHeader().setSectionResizeMode(2,QHeaderView.ResizeToContents)
         self.tableWidget.horizontalHeader().setSectionResizeMode(5,QHeaderView.ResizeToContents)
+        self.tableWidget.setColumnHidden(0, True)  # Устанавливаем столбец "Id" (с индексом 0) невидимым
         self.tableWidget.setHorizontalHeaderLabels(["Id", "Дата", "Время", "Откуда", "Куда", "Рейс","Свободные места"])
         # Добавляем строки из базы данных
         if where != "":
