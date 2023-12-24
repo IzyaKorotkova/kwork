@@ -37,8 +37,8 @@ def change_flight_schedule(id, date, time, fromPlace, toPlace,  flight_id, place
 
 def get_city(city):
     cursor = connection.cursor()
-    insert_movies_query = "Select city.city from city where city.city= '" + city + "'"
-    cursor.execute(insert_movies_query)
+    insert_movies_query = "Select city.city from city where city.city=%s"
+    cursor.execute(insert_movies_query, (city,))
     city_schedule = cursor.fetchall()
     cursor.close()
     if len(city_schedule) == 0:
@@ -47,8 +47,8 @@ def get_city(city):
 
 def get_city_2(city):
     cursor = connection.cursor()
-    insert_movies_query = "Select city.id from city where city.city= '" + city + "'"
-    cursor.execute(insert_movies_query)
+    insert_movies_query = "Select city.id from city where city.city= %s"
+    cursor.execute(insert_movies_query,(city,))
     city_schedule = cursor.fetchall()
     cursor.close()
     if len(city_schedule) == 0:
@@ -59,8 +59,8 @@ def add_city(city):
     cursor = connection.cursor()
     city_2 = get_city(city)
     if city_2 != city:
-        insert_movies_query = "INSERT INTO city (city) VALUES ('" + city + "')"
-        cursor.execute(insert_movies_query)
+        insert_movies_query = "INSERT INTO city (city) VALUES %s"
+        cursor.execute(insert_movies_query,(city,))
         connection.commit()
     cursor.close()
 
@@ -79,8 +79,8 @@ def change_city(city_1, city_2):
 
 def get_flight(flight):
     cursor = connection.cursor()
-    insert_movies_query = "Select flight.flight from flight where flight.flight= '" + flight + "'"
-    cursor.execute(insert_movies_query)
+    insert_movies_query = "Select flight.flight from flight where flight.flight= %s"
+    cursor.execute(insert_movies_query,(flight,))
     flight_schedule = cursor.fetchall()
     cursor.close()
     if len(flight_schedule) == 0:
@@ -89,8 +89,8 @@ def get_flight(flight):
 
 def get_flight_2(flight):
     cursor = connection.cursor()
-    insert_movies_query = "Select flight.id from flight where flight.flight= '" + flight + "'"
-    cursor.execute(insert_movies_query)
+    insert_movies_query = "Select flight.id from flight where flight.flight= %s"
+    cursor.execute(insert_movies_query,(flight,))
     flight_schedule = cursor.fetchall()
     cursor.close()
     if len(flight_schedule) == 0:
@@ -101,8 +101,8 @@ def add_flight(flight):
     cursor = connection.cursor()
     flight_2 = get_flight(flight)
     if flight_2 != flight:
-        query = "INSERT INTO flight (flight) VALUES ('" + flight + "')"
-        cursor.execute(query)
+        query = "INSERT INTO flight (flight) VALUES %s"
+        cursor.execute(query,(flight,))
         connection.commit()
     cursor.close()
 

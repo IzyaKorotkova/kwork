@@ -100,13 +100,22 @@ class filter_window(QtWidgets.QMainWindow,Ui_Filter):
             where += "a.free_place = " + self.spinBoxPlace.text() + " and "
         if self.lineEditFromPlace.text():
             id_from = get_city_2(self.lineEditFromPlace.text())
-            where += "from_place = " + str(id_from) + " and "
+            if id_from != '':
+                where += "from_place = " + str(id_from) + " and "
+            else:
+                where += "from_place = 0 and "
         if self.lineEditToPlace.text():
             id_to = get_city_2(self.lineEditToPlace.text())
-            where += "to_place = " + str(id_to) + " and "
+            if id_to != '':
+                where += "to_place = " + str(id_to) + " and "
+            else:
+                where += "to_place = 0 and "
         if self.lineEditFlight.text():
             id_flight = get_flight_2(self.lineEditFlight.text())
-            where += "flight_id = " + str(id_flight) + " and "
+            if id_flight!='':
+                where += "flight_id = " + str(id_flight) + " and "
+            else:
+                where += "flight_id = 0 and "
         if where != "":
             where = where[:-4]
         self.parent.open_table(where)
