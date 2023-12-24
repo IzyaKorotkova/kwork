@@ -2,6 +2,13 @@ import mysql.connector
 from mysql.connector import Error
 from mysql.connector.locales.eng import client_error
 
+import os
+from dotenv import load_dotenv
+load_dotenv()
+db_host = os.getenv("DB_HOST")
+db_user = os.getenv("DB_USER")
+db_password = os.getenv("DB_PASSWORD")
+db_name = os.getenv("DB_NAME")
 def create_connection_db(host_name, user_name, user_password, db_name):
     connection = None
     try:
@@ -16,9 +23,7 @@ def create_connection_db(host_name, user_name, user_password, db_name):
         print(f"The error '{e}' occurred")
 
     return connection
-
-connection = create_connection_db("31.28.27.213", "root", "луу1947*", "airplane")
-
+connection = create_connection_db(db_host, db_user, db_password, db_name)
 def add_flight_schedule(date, time, fromPlace, toPlace,  flight_id, place_free):
     cursor = connection.cursor()
     Y, M, D = date.split('.')
